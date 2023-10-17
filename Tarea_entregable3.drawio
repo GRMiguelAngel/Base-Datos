@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-10-17T15:13:16.961Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/114.0" etag="EdG9hs3NZu30pTabfs9d" version="22.0.4" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-17T15:21:00.438Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/114.0" etag="rqJVdyUWlXSYIEeqAhXW" version="22.0.4" type="github">
   <diagram name="Página-1" id="-NdraGJS-0DFVX8-Y1tH">
     <mxGraphModel dx="2261" dy="795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -144,7 +144,7 @@
         <mxCell id="DlKNlpENbQ6iREXl7qAN-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="DlKNlpENbQ6iREXl7qAN-48" target="DlKNlpENbQ6iREXl7qAN-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="DlKNlpENbQ6iREXl7qAN-48" value="Graduación militar" style="whiteSpace=wrap;html=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;shape=doubleEllipse;perimeter=ellipsePerimeter;margin=3;" parent="1" vertex="1">
+        <mxCell id="DlKNlpENbQ6iREXl7qAN-48" value="Graduación militar" style="whiteSpace=wrap;html=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;shape=ellipse;margin=3;perimeter=ellipsePerimeter;" parent="1" vertex="1">
           <mxGeometry x="250" y="650" width="89" height="50" as="geometry" />
         </mxCell>
         <mxCell id="DlKNlpENbQ6iREXl7qAN-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="DlKNlpENbQ6iREXl7qAN-50" target="DlKNlpENbQ6iREXl7qAN-14" edge="1">
