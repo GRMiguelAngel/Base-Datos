@@ -39,3 +39,10 @@ delete from Ejemplo where booleano=1;
 ```
 
 <img src='TareaBBDD3.png'>
+
+```sql
+update Ejemplo set texto='Modificado' where entero<30;
+```
+
+<img src='TareaBBDD4.png'>
+
