@@ -46,3 +46,20 @@ update Ejemplo set texto='Modificado' where entero<30;
 
 <img src='TareaBBDD4.png'>
 
+```sql
+delete from Ejemplo where entero=50;
+```
+
+<img src="TareaBBDD5.png">
+
+```sql
+delete from Ejemplo where decimal<50;
+```
+
+<img src="TareaBBDD6.png">
+
+```sql
+update Ejemplo set fecha=date('now');
+```
+
+<img src="TareaBBDD7.png">
