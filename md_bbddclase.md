@@ -188,3 +188,14 @@ SELECT nombre, salario, case when salario < 40000 then 'low' when salario BETWEE
 │ Roberto   │ 49000.0 │ medium    │
 │ Beatriz   │ 63000.0 │ high      │
 └───────────┴─────────┴───────────┘
+
+Cuenta el número total de empleados en cada departamento.
+
+select count(nombre) as empleados, departamento from empleados group by departamento ;
+┌───────────┬──────────────────┐
+│ empleados │   departamento   │
+├───────────┼──────────────────┤
+│ 6         │ Recursos Humanos │
+│ 7         │ TI               │
+│ 7         │ Ventas           │
+└───────────┴──────────────────┘
