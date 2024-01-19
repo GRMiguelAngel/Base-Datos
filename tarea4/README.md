@@ -116,6 +116,21 @@ select nombre, categoria, max(precio) as 'precio' FROM productos group by catego
 ```
 **Listar los productos que no han sido vendidos.**
 ```sql
+select * FROM productos WHERE id not in(select productos.id FROM productos, ventas where productos.id=ventas.id_producto);
+┌────┬────────────────────┬───────────┬────────┐
+│ id │       nombre       │ categoria │ precio │
+├────┼────────────────────┼───────────┼────────┤
+│ 3  │ Pan                │ Panadería │ 1.2    │
+│ 7  │ Yogurt             │ Lácteos   │ 2.0    │
+│ 9  │ Queso              │ Lácteos   │ 4.0    │
+│ 11 │ Papel Higiénico    │ Hogar     │ 1.5    │
+│ 12 │ Cepillo de Dientes │ Higiene   │ 2.0    │
+│ 13 │ Detergente         │ Limpieza  │ 2.8    │
+│ 15 │ Aceite de Oliva    │ Cocina    │ 4.5    │
+│ 17 │ Sopa enlatada      │ Conservas │ 2.3    │
+│ 19 │ Botellas de Agua   │ Bebidas   │ 1.0    │
+│ 20 │ Cerveza            │ Bebidas   │ 3.8    │
+└────┴────────────────────┴───────────┴────────┘
 
 ```
 **Calcular el precio promedio de los productos en la categoría "Snacks".**
@@ -241,6 +256,21 @@ select productos.nombre, ventas.fecha FROM ventas, productos WHERE ventas.fecha=
 ```
 **Calcular el total de ventas para cada producto.**
 ```sql
+select productos.nombre, ventas.cantidad as 'Venta total' FROM ventas, productos WHERE productos.id=ventas.id_producto group by productos.nombre order by ventas.cantidad desc;
+┌───────────────┬─────────────┐
+│    nombre     │ Venta total │
+├───────────────┼─────────────┤
+│ Huevos        │ 10          │
+│ Galletas      │ 7           │
+│ Jabón de Baño │ 6           │
+│ Arroz         │ 5           │
+│ Tomates       │ 4           │
+│ Leche         │ 3           │
+│ Café          │ 3           │
+│ Manzanas      │ 2           │
+│ Cereal        │ 2           │
+│ Pollo         │ 1           │
+└───────────────┴─────────────┘
 
 ```
 **Encontrar los productos con un precio entre 3 y 4.**
@@ -346,7 +376,8 @@ select count(nombre) as 'Numero de productos', categoria FROM productos group By
 ```
 **Listar los productos que tienen un precio igual a la media de precios.**
 ```sql
-
+select nombre, precio from productos where precio=(select avg(precio) as 'Precio medio' from productos);
+--No genera ninguna tabla puesto que no hay ningún producto cuyo precio sea igual a la media
 ```
 **Calcular el precio total de los productos vendidos en cada fecha.**
 ```sql
@@ -376,8 +407,8 @@ select nombre FROM productos WHERE nombre like '%o';
 ```
 **Encontrar los productos que han sido vendidos en más de una fecha.**
 ```sql
-
-
+select productos.nombre, ventas.fecha from productos, ventas where productos.id=ventas.id_producto group by productos.id having count(distinct fecha) > 1;
+--No genera ninguna tabla puesto que no hay ningún producto que se haya vendido en más de una fecha
 ```
 **Listar los productos cuya categoría comienza con la letra 'L'.**
 ```sql
@@ -434,5 +465,18 @@ select nombre FROM productos WHERE length(nombre)>=5;
 ```
 **Encontrar los productos que tienen un precio superior a la media en la tabla "productos".**
 ```sql
+select nombre, precio from productos where precio>(select avg(precio) as 'Precio medio' from productos);
+┌─────────────────┬────────┐
+│     nombre      │ precio │
+├─────────────────┼────────┤
+│ Manzanas        │ 3.0    │
+│ Pollo           │ 5.5    │
+│ Queso           │ 4.0    │
+│ Cereal          │ 3.5    │
+│ Detergente      │ 2.8    │
+│ Aceite de Oliva │ 4.5    │
+│ Café            │ 5.0    │
+│ Cerveza         │ 3.8    │
+└─────────────────┴────────┘
 
 ```
