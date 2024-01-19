@@ -1,12 +1,66 @@
-Paso 3: Responde a las siguientes cuestiones
+## Responde a las siguientes cuestiones
 
-    Realiza el diagrama ER de la BBDD supermercado.
-    Realiza el diagrama MR de la BBDD supermercado.
-    Indica si la BBDD esta normalizada hasta la 3ª forma normal, justificando la respuesta.
+**Realiza el diagrama ER de la BBDD supermercado.**
 
-Paso 4: Responde a las siguientes cuestiones
+<img height=210 src='Tarea4.png'>
+<br>
+<br>
 
-Realiza las siguientes consultas, y muestra el resultado obtenido:
+**Realiza el diagrama MR de la BBDD supermercado.**
+
+
+<img src='Tarea4_MR.png'>
+<br>
+<br>
+
+**Indica si la BBDD esta normalizada hasta la 3ª forma normal, justificando la respuesta.**
+
+Las tablas está en La Primera Forma Normal (1FN) puesto que no existen propiedades multievaluadas ni compuestas en estas.
+
+La Segunda Forma Normal (2FN) también se cumple puesto que se cumple la 1FN y todos los atributos que no son parte de la clave primaria tienen dependecia funcional de ella.
+
+Por último La Tercera Forma Normal (3FN) no se cumple porque, si bien se cumple la 2FN, existen dependencias transitivas en la tabla como en el caso de categoría.
+```code
+┌────┬─────────────┬──────────┬────────────┐
+│ id │ id_producto │ cantidad │   fecha    │
+├────┼─────────────┼──────────┼────────────┤
+│ 1  │ 1           │ 5        │ 2024-01-17 │
+│ 2  │ 2           │ 3        │ 2024-01-17 │
+│ 3  │ 4           │ 2        │ 2024-01-17 │
+│ 4  │ 5           │ 1        │ 2024-01-17 │
+│ 5  │ 6           │ 10       │ 2024-01-18 │
+│ 6  │ 8           │ 4        │ 2024-01-18 │
+│ 7  │ 10          │ 2        │ 2024-01-18 │
+│ 8  │ 14          │ 7        │ 2024-01-19 │
+│ 9  │ 16          │ 3        │ 2024-01-19 │
+│ 10 │ 18          │ 6        │ 2024-01-20 │
+└────┴─────────────┴──────────┴────────────┘
+┌────┬────────────────────┬───────────┬────────┐
+│ id │       nombre       │ categoria │ precio │
+├────┼────────────────────┼───────────┼────────┤
+│ 1  │ Arroz              │ Alimentos │ 2.5    │
+│ 2  │ Leche              │ Lácteos   │ 1.8    │
+│ 3  │ Pan                │ Panadería │ 1.2    │
+│ 4  │ Manzanas           │ Frutas    │ 3.0    │
+│ 5  │ Pollo              │ Carnes    │ 5.5    │
+│ 6  │ Huevos             │ Lácteos   │ 1.0    │
+│ 7  │ Yogurt             │ Lácteos   │ 2.0    │
+│ 8  │ Tomates            │ Verduras  │ 2.2    │
+│ 9  │ Queso              │ Lácteos   │ 4.0    │
+│ 10 │ Cereal             │ Desayuno  │ 3.5    │
+│ 11 │ Papel Higiénico    │ Hogar     │ 1.5    │
+│ 12 │ Cepillo de Dientes │ Higiene   │ 2.0    │
+│ 13 │ Detergente         │ Limpieza  │ 2.8    │
+│ 14 │ Galletas           │ Snacks    │ 1.7    │
+│ 15 │ Aceite de Oliva    │ Cocina    │ 4.5    │
+│ 16 │ Café               │ Bebidas   │ 5.0    │
+│ 17 │ Sopa enlatada      │ Conservas │ 2.3    │
+│ 18 │ Jabón de Baño      │ Higiene   │ 1.2    │
+│ 19 │ Botellas de Agua   │ Bebidas   │ 1.0    │
+│ 20 │ Cerveza            │ Bebidas   │ 3.8    │
+└────┴────────────────────┴───────────┴────────┘
+```
+## Realiza las siguientes consultas, y muestra el resultado obtenido:
 
 **Mostrar todos los productos de la categoría "Bebidas".**
 ```sql
