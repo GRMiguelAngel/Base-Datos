@@ -461,7 +461,7 @@ select nombre FROM productos WHERE nombre like '%o';
 ```
 **Encontrar los productos que han sido vendidos en más de una fecha.**
 ```sql
-select productos.nombre, ventas.fecha from productos, ventas where productos.id=ventas.id_producto group by productos.id having count(distinct fecha) > 1;
+select productos.nombre, ventas.fecha from productos, ventas where productos.id=ventas.id_producto group by productos.id having count(distinct ventas.fecha) > 1;
 --No genera ninguna tabla puesto que no hay ningún producto que se haya vendido en más de una fecha
 ```
 **Listar los productos cuya categoría comienza con la letra 'L'.**
