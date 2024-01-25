@@ -389,7 +389,7 @@ select pokemon.nombre as nombre, tipo.nombre as tipo from pokemon, tipo where po
 │ Charmander │ Fuego │
 │ Charizard  │ Fuego │
 └────────────┴───────┘
-```
+```º
 Encuentra los nombres y tipos de los Pokémon cuyo nivel es mayor que el promedio de todos los Pokémon en la base de datos.
 ```sql
 select pokemon.nombre as nombre, tipo.nombre as tipo, pokemon.nivel as nivel from pokemon, tipo where pokemon.nivel>(select avg(nivel) from pokemon) and tipo.id=pokemon.id_tipo;
