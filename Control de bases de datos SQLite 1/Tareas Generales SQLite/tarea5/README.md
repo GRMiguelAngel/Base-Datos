@@ -1,3 +1,9 @@
+# Tarea 5: Expresiones Regulares
+
+<img src=1548243330-45d524f99b59548834bb2739d55a5978.jpg>
+
+<br>
+
 1. Selección de libros cuyo título comienza con "H".
 
 ```sql
