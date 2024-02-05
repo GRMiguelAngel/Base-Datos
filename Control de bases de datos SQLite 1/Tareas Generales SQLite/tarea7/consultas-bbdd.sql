@@ -1,12 +1,39 @@
 -- Listar los coches vendidos con sus modelos y precios, junto con los nombres de los clientes que los compraron.
   -- Cosas que debo de tener en cuenta:
     -- ¿Qué me están pidiendo?. ¿Qué es lo que no me han pedido?
-
+select coches.marca, coches.modelo, coches.precio, clientes.nombre from clientes, ventas, coches where clientes.id_cliente=ventas.id_cliente and ventas.id_coche=coches.id_coche;
+/**
+┌────────────┬────────────────┬─────────┬─────────────────┐
+│   marca    │     modelo     │ precio  │     nombre      │
+├────────────┼────────────────┼─────────┼─────────────────┤
+│ Toyota     │ Sedán 2022     │ 25000.0 │ Juan Pérez      │
+│ Honda      │ Hatchback 2021 │ 22000.0 │ María Gómez     │
+│ Ford       │ SUV 2023       │ 30000.0 │ Carlos López    │
+│ Chevrolet  │ Coupé 2022     │ 28000.0 │ Ana Martínez    │
+│ Nissan     │ Camioneta 2023 │ 32000.0 │ Pedro Rodríguez │
+│ Volkswagen │ Compacto 2021  │ 20000.0 │ Laura Sánchez   │
+│ Hyundai    │ Híbrido 2022   │ 27000.0 │ Miguel González │
+│ Mazda      │ Deportivo 2023 │ 35000.0 │ Isabel Díaz     │
+│ Tesla      │ Eléctrico 2021 │ 40000.0 │ Elena Torres    │
+└────────────┴────────────────┴─────────┴─────────────────┘
+**/
 
 -- Encontrar los clientes que han comprado coches con precios superiores al promedio de todos los coches vendidos.
   -- Cosas que debo de tener en cuenta:
     -- Precios superiores.
     -- Obtener la media. AVG(precio)
+
+select clientes.nombre as Cliente, coches.marca, coches.modelo, coches.precio from clientes, coches, ventas where clientes.id_cliente=ventas.id_cliente and ventas.id_coche=coches.id_coche and precio > (select avg(precio) from coches);
+/**
+┌─────────────────┬────────┬────────────────┬─────────┐
+│     Cliente     │ marca  │     modelo     │ precio  │
+├─────────────────┼────────┼────────────────┼─────────┤
+│ Carlos López    │ Ford   │ SUV 2023       │ 30000.0 │
+│ Pedro Rodríguez │ Nissan │ Camioneta 2023 │ 32000.0 │
+│ Isabel Díaz     │ Mazda  │ Deportivo 2023 │ 35000.0 │
+│ Elena Torres    │ Tesla  │ Eléctrico 2021 │ 40000.0 │
+└─────────────────┴────────┴────────────────┴─────────┘
+**/
 
 -- Mostrar los modelos de coches y sus precios que no han sido vendidos aún:
 
