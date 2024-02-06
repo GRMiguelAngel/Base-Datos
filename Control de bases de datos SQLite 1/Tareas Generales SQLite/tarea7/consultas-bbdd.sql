@@ -84,9 +84,18 @@ select coches.id_coche, coches.marca, coches.modelo, ventas.fecha_venta, cliente
 └──────────┴────────────┴────────────────┴─────────────┴─────────────────┘
 **/
 
--- Encontrar el modelo de coche más caro que ha sido reparado al menos una vez.
+-- Encontrar el modelo de coche más caro.
   -- Cosas que debo de tener en cuenta:
     -- ¿Qué me están pidiendo?. MAX
+
+select marca, modelo, max(precio) as 'Precio Máximo' from coches;
+/**
+┌───────┬────────────────┬───────────────┐
+│ marca │     modelo     │ Precio Máximo │
+├───────┼────────────────┼───────────────┤
+│ Tesla │ Eléctrico 2021 │ 40000.0       │
+└───────┴────────────────┴───────────────┘
+**/
 
 -- Mostrar los clientes que han comprado al menos un coche (un coche o más) y la cantidad de coches comprados.
   -- Cosas que debo de tener en cuenta:
