@@ -171,6 +171,7 @@ select coches.marca, coches.modelo, count(ventas.id_coche) as 'Ventas totales' f
 ├───────┼────────┼────────────────┤
 │       │        │ 0              │
 └───────┴────────┴────────────────┘
+No hay coches vendidos en 2022
 **/
 
 -- Listar los coches cuyos precios son mayores que el precio promedio de coches vendidos a clientes menores de 30 años.
