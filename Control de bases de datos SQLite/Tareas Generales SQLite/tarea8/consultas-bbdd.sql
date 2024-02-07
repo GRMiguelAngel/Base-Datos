@@ -98,7 +98,6 @@ select clientes.nombre as Cliente, clientes.edad, coches.precio from clientes, c
 -- Consulta para calcular el precio medio de los coches vendidos en 2023.
 
 select avg(coches.precio) as 'Precio medio' from coches, ventas where coches.id_coche=ventas.id_coche and ventas.fecha_venta regexp '2023-';
-
 /**
 ┌──────────────────┐
 │   Precio medio   │
@@ -121,27 +120,45 @@ select clientes.nombre as Cliente, clientes.direccion, coches.marca from coches,
 
 -- Consulta para contar el número de coches vendidos por año.
 
-
+select count(id_coche) as 'Número de ventas', substr(fecha_venta,1,4) as Año from ventas group by Año;
 /**
-
+┌──────────────────┬──────┐
+│ Número de ventas │ Año  │
+├──────────────────┼──────┤
+│ 9                │ 2023 │
+└──────────────────┴──────┘
 **/
 
 -- Consulta para obtener el nombre y la edad de los clientes que han comprado coches de más de 30000 euros y llevado a reparar sus coches.
 
-
+select clientes.nombre as Cliente, clientes.edad from clientes, ventas, reparacion, coches where clientes.id_cliente=ventas.id_cliente and coches.id_coche=ventas.id_coche and reparacion.id_cliente=clientes.id_cliente and coches.precio>30000;
 /**
-
+┌─────────────────┬──────┐
+│     Cliente     │ edad │
+├─────────────────┼──────┤
+│ Pedro Rodríguez │ 40   │
+│ Pedro Rodríguez │ 40   │
+│ Isabel Díaz     │ 38   │
+│ Isabel Díaz     │ 38   │
+│ Elena Torres    │ 29   │
+│ Elena Torres    │ 29   │
+└─────────────────┴──────┘
 **/
 
 -- Consulta para calcular el precio total de los coches vendidos a clientes menores de 30 años.
 
-
+select sum(coches.precio) from coches, clientes, ventas where clientes.edad<30 and clientes.id_cliente=ventas.id_cliente and coches.id_coche=ventas.id_coche;
 /**
-
+┌────────────────────┐
+│ sum(coches.precio) │
+├────────────────────┤
+│ 117000.0           │
+└────────────────────┘
 **/
 
 -- Consulta para obtener el modelo y el año de los coches vendidos en 2023 y llevados a reparar.
 
+-- select coches.modelo, coches.año from coches, ventas, reparacion where reparacion.id_coche=coches.id_coche and ventas.id_coche=coches.id_coche and ventas.fecha_venta regexp '^2023-';
 
 /**
 
@@ -149,30 +166,57 @@ select clientes.nombre as Cliente, clientes.direccion, coches.marca from coches,
 
 -- Consulta para contar el número de coches vendidos por cliente.
 
-
+select count(ventas.id_coche) as 'Número de ventas', clientes.nombre from clientes, ventas, coches where clientes.id_cliente=ventas.id_cliente and coches.id_coche=ventas.id_coche group by clientes.nombre;
 /**
-
+┌──────────────────┬─────────────────┐
+│ Número de ventas │     nombre      │
+├──────────────────┼─────────────────┤
+│ 1                │ Ana Martínez    │
+│ 1                │ Carlos López    │
+│ 1                │ Elena Torres    │
+│ 1                │ Isabel Díaz     │
+│ 1                │ Juan Pérez      │
+│ 1                │ Laura Sánchez   │
+│ 1                │ María Gómez     │
+│ 1                │ Miguel González │
+│ 1                │ Pedro Rodríguez │
+└──────────────────┴─────────────────┘
 **/
 
 -- Consulta para obtener el nombre y el precio de los coches vendidos a clientes mayores de 35 años.
 
-
+select coches.marca, coches.modelo from coches, ventas, clientes where coches.id_coche=ventas.id_coche and clientes.edad>35 and clientes.id_cliente=ventas.id_cliente;
 /**
-
+┌────────┬────────────────┐
+│ marca  │     modelo     │
+├────────┼────────────────┤
+│ Nissan │ Camioneta 2023 │
+│ Mazda  │ Deportivo 2023 │
+└────────┴────────────────┘
 **/
 
 -- Consulta para calcular el precio total de los coches vendidos a clientes que viven en una calle (en la dirección).
 
-
+select sum(coches.precio) as 'Precio total' from coches, ventas, clientes where coches.id_coche=ventas.id_coche and clientes.id_cliente=ventas.id_cliente and clientes.direccion regexp '^Calle';
 /**
-
+┌──────────────┐
+│ Precio total │
+├──────────────┤
+│ 114000.0     │
+└──────────────┘
 **/
 
 -- Consulta para obtener el nombre y la dirección de los clientes que han comprado coches de más de 30000 euros y llevado a reparar sus coches en 2024.
 
-
+select distinct clientes.nombre as Cliente, clientes.direccion from clientes, ventas, coches, reparacion where coches.id_coche=ventas.id_coche and clientes.id_cliente=ventas.id_cliente and coches.precio>30000 and coches.id_coche=reparacion.id_coche and reparacion.fecha_reparación regexp '2024-';
 /**
-
+┌─────────────────┬────────────────┐
+│     Cliente     │   direccion    │
+├─────────────────┼────────────────┤
+│ Pedro Rodríguez │ Calle E #234   │
+│ Isabel Díaz     │ Avenida H #111 │
+│ Elena Torres    │ Avenida J #333 │
+└─────────────────┴────────────────┘
 **/
 
 -- Consulta para calcular el precio medio de los coches vendidos en 2023 y llevados a reparar por clientes menores de 30 años.
