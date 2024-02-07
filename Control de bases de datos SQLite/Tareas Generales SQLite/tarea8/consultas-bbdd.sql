@@ -79,7 +79,7 @@ select clientes.nombre as Cliente, clientes.direccion as Dirección, reparacion.
 
 
 /**
-
+No se indican gastos en la base de datos.
 **/
 
 -- Consulta para obtener el nombre y la edad de los clientes que han comprado coches de más de 30000 euros.
@@ -158,10 +158,22 @@ select sum(coches.precio) from coches, clientes, ventas where clientes.edad<30 a
 
 -- Consulta para obtener el modelo y el año de los coches vendidos en 2023 y llevados a reparar.
 
--- select coches.modelo, coches.año from coches, ventas, reparacion where reparacion.id_coche=coches.id_coche and ventas.id_coche=coches.id_coche and ventas.fecha_venta regexp '^2023-';
+select distinct coches.modelo, coches.año from coches, ventas, reparacion where ventas.fecha_venta regexp '2023-' and coches.id_coche=ventas.id_coche and reparacion.id_coche=coches.id_coche;
 
 /**
-
+┌────────────────┬──────┐
+│     modelo     │ año  │
+├────────────────┼──────┤
+│ Sedán 2022     │ 2022 │
+│ Hatchback 2021 │ 2021 │
+│ SUV 2023       │ 2023 │
+│ Coupé 2022     │ 2022 │
+│ Camioneta 2023 │ 2023 │
+│ Compacto 2021  │ 2021 │
+│ Híbrido 2022   │ 2022 │
+│ Deportivo 2023 │ 2023 │
+│ Eléctrico 2021 │ 2021 │
+└────────────────┴──────┘
 **/
 
 -- Consulta para contar el número de coches vendidos por cliente.
@@ -221,22 +233,47 @@ select distinct clientes.nombre as Cliente, clientes.direccion from clientes, ve
 
 -- Consulta para calcular el precio medio de los coches vendidos en 2023 y llevados a reparar por clientes menores de 30 años.
 
-
+select avg(coches.precio) as 'Precio Medio' from clientes, ventas, reparacion, coches where ventas.fecha_venta regexp '2023-' and clientes.edad<30 and clientes.id_cliente=ventas.id_cliente and coches.id_coche=ventas.id_coche and coches.id_coche=reparacion.id_coche;
 /**
-
+┌──────────────┐
+│ Precio Medio │
+├──────────────┤
+│ 29375.0      │
+└──────────────┘
 **/
 
 -- Consulta para obtener el modelo y el año de los coches vendidos por clientes que tienen una dirección que contiene la palabra "Avenida".
 
-
+select coches.modelo, coches.año from ventas, coches, clientes where clientes.id_cliente=ventas.id_cliente and coches.id_coche=ventas.id_coche and clientes.direccion regexp 'Avenida';
 /**
-
+┌────────────────┬──────┐
+│     modelo     │ año  │
+├────────────────┼──────┤
+│ Hatchback 2021 │ 2021 │
+│ Coupé 2022     │ 2022 │
+│ Compacto 2021  │ 2021 │
+│ Deportivo 2023 │ 2023 │
+│ Eléctrico 2021 │ 2021 │
+└────────────────┴──────┘
 **/
 
 -- Consulta para contar el número de reparaciones realizadas en 2024 por cada cliente.
 
-
+select count(reparacion.id_cliente) as 'Número de reparaciones', clientes.nombre from clientes, reparacion where clientes.id_cliente=reparacion.id_cliente group by clientes.nombre;
 /**
-
+┌────────────────────────┬─────────────────┐
+│ Número de reparaciones │     nombre      │
+├────────────────────────┼─────────────────┤
+│ 2                      │ Ana Martínez    │
+│ 2                      │ Carlos López    │
+│ 2                      │ Elena Torres    │
+│ 2                      │ Francisco Ruiz  │
+│ 2                      │ Isabel Díaz     │
+│ 2                      │ Juan Pérez      │
+│ 2                      │ Laura Sánchez   │
+│ 2                      │ María Gómez     │
+│ 2                      │ Miguel González │
+│ 2                      │ Pedro Rodríguez │
+└────────────────────────┴─────────────────┘
 **/
 
