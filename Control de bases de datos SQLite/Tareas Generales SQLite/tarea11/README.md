@@ -361,8 +361,46 @@ select * from cliente where ciudad='Madrid' and codigo_empleado_rep_ventas in (1
 
 - Obtén un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.
 ```sql
-
+select cliente.nombre_cliente, empleado.nombre, empleado.apellido1, empleado.apellido2 from empleado join cliente on cliente.codigo_empleado_rep_ventas=empleado.codigo_empleado;
 ```
+|         nombre_cliente         |     nombre      | apellido1  | apellido2 |
+|--------------------------------|-----------------|------------|-----------|
+| GoldFish Garden                | Walter Santiago | Sanchez    | Lopez     |
+| Gardening Associates           | Walter Santiago | Sanchez    | Lopez     |
+| Gerudo Valley                  | Lorena          | Paxton     |           |
+| Tendo Garden                   | Lorena          | Paxton     |           |
+| Lasas S.A.                     | Mariano         | López      | Murcia    |
+| Beragua                        | Emmanuel        | Magaña     | Perez     |
+| Club Golf Puerta del hierro    | Emmanuel        | Magaña     | Perez     |
+| Naturagua                      | Emmanuel        | Magaña     | Perez     |
+| DaraDistribuciones             | Emmanuel        | Magaña     | Perez     |
+| Madrileña de riegos            | Emmanuel        | Magaña     | Perez     |
+| Lasas S.A.                     | Mariano         | López      | Murcia    |
+| Camunas Jardines S.L.          | Mariano         | López      | Murcia    |
+| Dardena S.A.                   | Mariano         | López      | Murcia    |
+| Jardin de Flores               | Julian          | Bellinelli |           |
+| Flores Marivi                  | Felipe          | Rosas      | Marquez   |
+| Flowers, S.A                   | Felipe          | Rosas      | Marquez   |
+| Naturajardin                   | Julian          | Bellinelli |           |
+| Golf S.A.                      | José Manuel     | Martinez   | De la Osa |
+| Americh Golf Management SL     | José Manuel     | Martinez   | De la Osa |
+| Aloha                          | José Manuel     | Martinez   | De la Osa |
+| El Prat                        | José Manuel     | Martinez   | De la Osa |
+| Sotogrande                     | José Manuel     | Martinez   | De la Osa |
+| Vivero Humanes                 | Julian          | Bellinelli |           |
+| Fuenla City                    | Felipe          | Rosas      | Marquez   |
+| Jardines y Mansiones Cactus SL | Lucio           | Campoamor  | Martín    |
+| Jardinerías Matías SL          | Lucio           | Campoamor  | Martín    |
+| Agrojardin                     | Julian          | Bellinelli |           |
+| Top Campo                      | Felipe          | Rosas      | Marquez   |
+| Jardineria Sara                | Felipe          | Rosas      | Marquez   |
+| Campohermoso                   | Julian          | Bellinelli |           |
+| france telecom                 | Lionel          | Narvaez    |           |
+| Musée du Louvre                | Lionel          | Narvaez    |           |
+| Tutifruti S.A                  | Mariko          | Kishi      |           |
+| Flores S.L.                    | Michael         | Bolton     |           |
+| The Magic Garden               | Michael         | Bolton     |           |
+| El Jardin Viviente S.L         | Mariko          | Kishi      |           |
 
 - Muestra el nombre de los clientes que hayan realizado pagos junto con el nombre de sus representantes de ventas.
 ```sql
