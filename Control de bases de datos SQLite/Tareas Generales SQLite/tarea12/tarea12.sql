@@ -368,28 +368,98 @@ select cliente.id, cliente.nombre, cliente.apellido1, cliente.apellido2, coalesc
 **/
 
 -- Devuelve un listado que muestre el identificador de cliente, nombre, primer apellido y el valor de la máxima cantidad del pedido realizado por cada uno de los clientes. El resultado debe mostrar aquellos clientes que no han realizado ningún pedido indicando que la máxima cantidad de sus pedidos realizados es 0.
+select cliente.id, cliente.nombre, cliente.apellido1, coalesce(count(pedido.id_cliente), 0) as 'Número de pedidos' from cliente left join pedido on cliente.id=pedido.id_cliente group by cliente.id;
+/**
+| id |  nombre   | apellido1 | Número de pedidos |
+|----|-----------|-----------|-------------------|
+| 1  | Aarón     | Rivero    | 3                 |
+| 2  | Adela     | Salas     | 3                 |
+| 3  | Adolfo    | Rubio     | 1                 |
+| 4  | Adrián    | Suárez    | 1                 |
+| 5  | Marcos    | Loyola    | 2                 |
+| 6  | María     | Santana   | 2                 |
+| 7  | Pilar     | Ruiz      | 1                 |
+| 8  | Pepe      | Ruiz      | 3                 |
+| 9  | Guillermo | López     | 0                 |
+| 10 | Daniel    | Santana   | 0                 |
+**/
 
 -- Devuelve cuál ha sido el pedido de máximo valor que se ha realizado cada año.
+SELECT pedido.id, MAX(pedido.total) as 'Más valor', strftime('%Y', fecha) as 'Anyo' from pedido group by anyo;
+/**
+| id | Más valor | Anyo |
+|----|-----------|------|
+| 7  | 5760.0    | 2015 |
+| 9  | 2480.4    | 2016 |
+| 12 | 3045.6    | 2017 |
+| 16 | 2389.23   | 2019 |
+**/
 
 -- Devuelve el número total de pedidos que se han realizado cada año.
+select count(id) as 'Número de pedidos', strftime('%Y', fecha) as Anyo from pedido group by Anyo;
+/**
+| Número de pedidos | Anyo |
+|-------------------|------|
+| 2                 | 2015 |
+| 5                 | 2016 |
+| 6                 | 2017 |
+| 3                 | 2019 |
+**/
 
 -- Subconsultas
 
 -- Con operadores básicos de comparación
 
 -- Devuelve un listado con todos los pedidos que ha realizado Adela Salas Díaz. (Sin utilizar INNER JOIN).
+select pedido.* from pedido, cliente where cliente.id=pedido.id_cliente and cliente.nombre='Adela' and cliente.apellido1='Salas' and cliente.apellido2='Díaz';
+/**
+| id | total  |   fecha    | id_cliente | id_comercial |
+|----|--------|------------|------------|--------------|
+| 3  | 65.26  | 2017-10-05 | 2          | 1            |
+| 7  | 5760.0 | 2015-09-10 | 2          | 1            |
+| 12 | 3045.6 | 2017-04-25 | 2          | 1            |
+**/
 
 -- Devuelve el número de pedidos en los que ha participado el comercial Daniel Sáez Vega. (Sin utilizar INNER JOIN)
+select count(pedido.id_comercial) as 'Número de pedidos' from pedido, comercial where comercial.id=pedido.id_comercial and comercial.nombre='Daniel' and comercial.apellido1='Sáez' and comercial.apellido2='Vega';
+/**
+| Número de pedidos |
+|-------------------|
+| 6                 |
+**/
 
 -- Devuelve los datos del cliente que realizó el pedido más caro en el año 2019. (Sin utilizar INNER JOIN)
+select cliente.* from cliente, pedido where cliente.id=pedido.id_cliente and pedido.total=(select max(total) from pedido);
+/**
+| id | nombre | apellido1 | apellido2 | ciudad  | categoria |
+|----|--------|-----------|-----------|---------|-----------|
+| 2  | Adela  | Salas     | Díaz      | Granada | 200       |
+**/
 
 -- Devuelve la fecha y la cantidad del pedido de menor valor realizado por el cliente Pepe Ruiz Santana.
+select pedido.fecha, pedido.total from pedido, cliente where pedido.total=(select min(total) from pedido) and cliente.nombre='Pepe' and cliente.apellido1='Ruiz' and c
+/**
+|   fecha    | total |
+|------------|-------|
+| 2017-10-05 | 65.26 |
+**/
 
 -- Devuelve un listado con los datos de los clientes y los pedidos, de todos los clientes que han realizado un pedido durante el año 2017 con un valor mayor o igual al valor medio de los pedidos realizados durante ese mismo año.
+select * from cliente, pedido where cliente.id=pedido.id_cliente and pedido.fecha regexp '^2017-' and pedido.total>=(select avg(total) from pedido where fecha regexp '^2017-');
+/**
+| id | nombre | apellido1 | apellido2 | ciudad  | categoria | id |  total  |   fecha    | id_cliente | id_comercial |
+|----|--------|-----------|-----------|---------|-----------|----|---------|------------|------------|--------------|
+| 4  | Adrián | Suárez    |           | Jaén    | 300       | 8  | 1983.43 | 2017-10-10 | 4          | 6            |
+| 2  | Adela  | Salas     | Díaz      | Granada | 200       | 12 | 3045.6  | 2017-04-25 | 2          | 1            |
+**/
 
 -- Subconsultas con IN y NOT IN
 
 -- Devuelve un listado de los clientes que no han realizado ningún pedido. (Utilizando IN o NOT IN).
+select * from cliente, pedido where cliente.id not in (select id_cliente from pedido);
+/**
+
+**/
 
 -- Devuelve un listado de los comerciales que no han realizado ningún pedido. (Utilizando IN o NOT IN).
 
