@@ -79,12 +79,18 @@ select max(categoria) as 'Máx_valor categoría' from comercial;
 
 7. Devuelve el identificador, nombre y primer apellido de aquellos clientes cuyo segundo apellido no es NULL. El listado deberá estar ordenado alfabéticamente por apellidos y nombre.
 ```sql
-select id, nombre, apellido1 from cliente where apellido2 is null order by nombre asc, apellido1 asc;
+select id, nombre, apellido1 from cliente where apellido2 is not null order by nombre asc, apellido1 asc;
 ```
-| id | nombre | apellido1 |
-|----|--------|-----------|
-| 4  | Adrián | Suárez    |
-| 7  | Pilar  | Ruiz      |
+| id |  nombre   | apellido1 |
+|----|-----------|-----------|
+| 1  | Aarón     | Rivero    |
+| 2  | Adela     | Salas     |
+| 3  | Adolfo    | Rubio     |
+| 10 | Daniel    | Santana   |
+| 9  | Guillermo | López     |
+| 5  | Marcos    | Loyola    |
+| 6  | María     | Santana   |
+| 8  | Pepe      | Ruiz      |
 
 8. Devuelve un listado de los nombres de los clientes que empiezan por A y terminan por n y también los nombres que empiezan por P. El listado deberá estar ordenado alfabéticamente.
 ```sql
@@ -318,19 +324,97 @@ select cliente.id, cliente.nombre, cliente.apellido1, cliente.apellido2, pedido.
 | 1  | Aarón  | Rivero    | Gómez     | 2019-03-11 | 2389.23       |
 
 9. Calcula cuál es el máximo valor de los pedidos realizados durante el mismo día para cada uno de los clientes, teniendo en cuenta que sólo queremos mostrar aquellos pedidos que superen la cantidad de 2000 €.
-
+```sql
+select cliente.id, cliente.nombre, cliente.apellido1, cliente.apellido2, pedido.fecha, max(pedido.total) as 'Máximo pagado' from pedido join cliente on cliente.id=pedido.id_cliente group by fecha;
+```
+| id | nombre | apellido1 | apellido2 |   fecha    | Máximo pagado |
+|----|--------|-----------|-----------|------------|---------------|
+| 2  | Adela  | Salas     | Díaz      | 2015-09-10 | 5760.0        |
+| 7  | Pilar  | Ruiz      |           | 2016-07-27 | 2400.6        |
+| 8  | Pepe   | Ruiz      | Santana   | 2016-10-10 | 2480.4        |
+| 2  | Adela  | Salas     | Díaz      | 2017-04-25 | 3045.6        |
+| 1  | Aarón  | Rivero    | Gómez     | 2019-03-11 | 2389.23       |
 
 10. Calcula el máximo valor de los pedidos realizados para cada uno de los comerciales durante la fecha 2016-08-17. Muestra el identificador del comercial, nombre, apellidos y total.
+```sql
+select max(pedido.total) as 'Total máximo', comercial.id, comercial.nombre, comercial.apellido1, comercial.apellido2 from comercial join pedido on comercial.id=pedido.id_comercial and pedido.fecha='2016-08-17';
+```
+| Total máximo | id | nombre | apellido1 | apellido2 |
+|--------------|----|--------|-----------|-----------|
+| 110.5        | 3  | Diego  | Flores    | Salas     |
 
 11. Devuelve un listado con el identificador de cliente, nombre y apellidos y el número total de pedidos que ha realizado cada uno de clientes. Tenga en cuenta que pueden existir clientes que no han realizado ningún pedido. Estos clientes también deben aparecer en el listado indicando que el número de pedidos realizados es 0.
+```sql
+select cliente.id, cliente.nombre, cliente.apellido1, cliente.apellido2, coalesce(count(pedido.id_cliente), 0) as 'Número de pedidos' from cliente left join pedido on cliente.id=pedido.id_cliente group by cliente.id;
+```
+| id |  nombre   | apellido1 | apellido2 | Número de pedidos |
+|----|-----------|-----------|-----------|-------------------|
+| 1  | Aarón     | Rivero    | Gómez     | 3                 |
+| 2  | Adela     | Salas     | Díaz      | 3                 |
+| 3  | Adolfo    | Rubio     | Flores    | 1                 |
+| 4  | Adrián    | Suárez    |           | 1                 |
+| 5  | Marcos    | Loyola    | Méndez    | 2                 |
+| 6  | María     | Santana   | Moreno    | 2                 |
+| 7  | Pilar     | Ruiz      |           | 1                 |
+| 8  | Pepe      | Ruiz      | Santana   | 3                 |
+| 9  | Guillermo | López     | Gómez     | 0                 |
+| 10 | Daniel    | Santana   | Loyola    | 0                 |
 
 12. Devuelve un listado con el identificador de cliente, nombre y apellidos y el número total de pedidos que ha realizado cada uno de clientes durante el año 2017.
+```sql
+select cliente.id, cliente.nombre, cliente.apellido1, cliente.apellido2, coalesce(count(pedido.id_cliente), 0) as 'Número de pedidos' from cliente left join pedido on cliente.id=pedido.id_cliente and pedido.fecha regexp '^2017-' group by cliente.id;
+```
+| id |  nombre   | apellido1 | apellido2 | Número de pedidos |
+|----|-----------|-----------|-----------|-------------------|
+| 1  | Aarón     | Rivero    | Gómez     | 0                 |
+| 2  | Adela     | Salas     | Díaz      | 2                 |
+| 3  | Adolfo    | Rubio     | Flores    | 0                 |
+| 4  | Adrián    | Suárez    |           | 1                 |
+| 5  | Marcos    | Loyola    | Méndez    | 2                 |
+| 6  | María     | Santana   | Moreno    | 1                 |
+| 7  | Pilar     | Ruiz      |           | 0                 |
+| 8  | Pepe      | Ruiz      | Santana   | 0                 |
+| 9  | Guillermo | López     | Gómez     | 0                 |
+| 10 | Daniel    | Santana   | Loyola    | 0                 |
 
 13. Devuelve un listado que muestre el identificador de cliente, nombre, primer apellido y el valor de la máxima cantidad del pedido realizado por cada uno de los clientes. El resultado debe mostrar aquellos clientes que no han realizado ningún pedido indicando que la máxima cantidad de sus pedidos realizados es 0.
+```sql
+select cliente.id, cliente.nombre, cliente.apellido1, coalesce(count(pedido.id_cliente), 0) as 'Número de pedidos' from cliente left join pedido on cliente.id=pedido.id_cliente group by cliente.id;
+```
+| id |  nombre   | apellido1 | Número de pedidos |
+|----|-----------|-----------|-------------------|
+| 1  | Aarón     | Rivero    | 3                 |
+| 2  | Adela     | Salas     | 3                 |
+| 3  | Adolfo    | Rubio     | 1                 |
+| 4  | Adrián    | Suárez    | 1                 |
+| 5  | Marcos    | Loyola    | 2                 |
+| 6  | María     | Santana   | 2                 |
+| 7  | Pilar     | Ruiz      | 1                 |
+| 8  | Pepe      | Ruiz      | 3                 |
+| 9  | Guillermo | López     | 0                 |
+| 10 | Daniel    | Santana   | 0                 |
 
 14. Devuelve cuál ha sido el pedido de máximo valor que se ha realizado cada año.
+```sql
+SELECT pedido.id, MAX(pedido.total) as 'Más valor', strftime('%Y', fecha) as 'Anyo' from pedido group by anyo;
+```
+| id | Más valor | Anyo |
+|----|-----------|------|
+| 7  | 5760.0    | 2015 |
+| 9  | 2480.4    | 2016 |
+| 12 | 3045.6    | 2017 |
+| 16 | 2389.23   | 2019 |
 
 15. Devuelve el número total de pedidos que se han realizado cada año.
+```sql
+select count(id) as 'Número de pedidos', strftime('%Y', fecha) as Anyo from pedido group by Anyo;
+```
+| Número de pedidos | Anyo |
+|-------------------|------|
+| 2                 | 2015 |
+| 5                 | 2016 |
+| 6                 | 2017 |
+| 3                 | 2019 |
 
 ## Subconsultas
 
@@ -338,11 +422,30 @@ select cliente.id, cliente.nombre, cliente.apellido1, cliente.apellido2, pedido.
 
 1. Devuelve un listado con todos los pedidos que ha realizado Adela Salas Díaz. (Sin utilizar INNER
 JOIN).
+```sql
+select pedido.* from pedido, cliente where cliente.id=pedido.id_cliente and cliente.nombre='Adela' and cliente.apellido1='Salas' and cliente.apellido2='Díaz';
+```
+| id | total  |   fecha    | id_cliente | id_comercial |
+|----|--------|------------|------------|--------------|
+| 3  | 65.26  | 2017-10-05 | 2          | 1            |
+| 7  | 5760.0 | 2015-09-10 | 2          | 1            |
+| 12 | 3045.6 | 2017-04-25 | 2          | 1            |
 
 2. Devuelve el número de pedidos en los que ha participado el comercial Daniel Sáez Vega. (Sin utilizar INNER JOIN)
+```sql
+select count(pedido.id_comercial) as 'Número de pedidos' from pedido, comercial where comercial.id=pedido.id_comercial and comercial.nombre='Daniel' and comercial.apellido1='Sáez' and comercial.apellido2='Vega';
+```
+| Número de pedidos |
+|-------------------|
+| 6                 |
 
 3. Devuelve los datos del cliente que realizó el pedido más caro en el año 2019. (Sin utilizar INNER JOIN)
-
+```sql
+select cliente.* from cliente, pedido where cliente.id=pedido.id_cliente and pedido.total=(select max(total) from pedido);
+```
+| id | nombre | apellido1 | apellido2 | ciudad  | categoria |
+|----|--------|-----------|-----------|---------|-----------|
+| 2  | Adela  | Salas     | Díaz      | Granada | 200       |
 4. Devuelve la fecha y la cantidad del pedido de menor valor realizado por el cliente Pepe Ruiz Santana.
 
 5. Devuelve un listado con los datos de los clientes y los pedidos, de todos los clientes que han realizado un pedido durante el año 2017 con un valor mayor o igual al valor medio de los pedidos realizados durante ese mismo año.
