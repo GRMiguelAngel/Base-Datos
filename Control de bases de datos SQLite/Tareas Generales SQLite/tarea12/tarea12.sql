@@ -456,7 +456,7 @@ select * from cliente, pedido where cliente.id=pedido.id_cliente and pedido.fech
 -- Subconsultas con IN y NOT IN
 
 -- Devuelve un listado de los clientes que no han realizado ningún pedido. (Utilizando IN o NOT IN).
-select * from cliente, pedido where cliente.id not in (select id_cliente from pedido);
+select * from cliente, pedido where pedido.id_cliente not in (select pedido.id_cliente from pedido, cliente);
 /**
 
 **/
