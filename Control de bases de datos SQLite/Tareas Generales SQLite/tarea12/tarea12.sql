@@ -437,7 +437,7 @@ select cliente.* from cliente, pedido where cliente.id=pedido.id_cliente and ped
 **/
 
 -- Devuelve la fecha y la cantidad del pedido de menor valor realizado por el cliente Pepe Ruiz Santana.
-select pedido.fecha, pedido.total from pedido, cliente where pedido.total=(select min(total) from pedido) and cliente.nombre='Pepe' and cliente.apellido1='Ruiz' and c
+select pedido.fecha, pedido.total from pedido, cliente where pedido.total=(select min(total) from pedido) and cliente.nombre='Pepe' and cliente.apellido1='Ruiz' and cliente.apellido2='Santana';
 /**
 |   fecha    | total |
 |------------|-------|

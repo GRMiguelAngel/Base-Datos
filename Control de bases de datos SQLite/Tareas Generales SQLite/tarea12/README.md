@@ -121,6 +121,7 @@ select nombre from comercial where nombre regexp 'o$' order by nombre;
 | Diego   |
 
 ## Consultas multitabla
+
 > [!NOTE]
 > utilizando las cláusulas INNER JOIN.
 
