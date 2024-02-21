@@ -120,10 +120,10 @@ select nombre from comercial where nombre regexp 'o$' order by nombre;
 | Antonio |
 | Diego   |
 
-## Consultas multitabla[^1]
+## Consultas multitabla
 
-[^1]:utilizando las cláusulas INNER JOIN.
-
+> [!Nota]
+> utilizando las cláusulas INNER JOIN.
 
 1. Devuelve un listado con el identificador, nombre y los apellidos de todos los clientes que han realizado algún pedido. El listado debe estar ordenado alfabéticamente y se deben eliminar los elementos repetidos.
 ```sql
