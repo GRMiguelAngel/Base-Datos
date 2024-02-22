@@ -216,7 +216,7 @@ select cliente.* from cliente join pedido on cliente.id=pedido.id_cliente and pe
 **/
 
 -- Devuelve el nombre y los apellidos de todos los comerciales que ha participado en algún pedido realizado por María Santana Moreno.
-select distinct comercial.nombre, comercial.apellido1, comercial.apellido2 from comercial join pedido on pedido.id_comercial=comercial.id join cliente on cliente.id=pedido.id_cliente and cliente.nombre='María' and cliente.apellido1='Santana' and cliente.apellido2='Moreno';
+select distinct comercial.nombre, comercial.apellido1, comercial.apellido2 from comercial join pedido on pedido.id_comercial=comercial.id join cliente on cliente.id=pedido.id_cliente where cliente.nombre='María' and cliente.apellido1='Santana' and cliente.apellido2='Moreno';
 /**
 | nombre | apellido1 | apellido2 |
 |--------|-----------|-----------|
@@ -315,7 +315,7 @@ select cliente.id, cliente.nombre, cliente.apellido1, cliente.apellido2, pedido.
 **/
 
 -- Calcula cuál es el máximo valor de los pedidos realizados durante el mismo día para cada uno de los clientes, teniendo en cuenta que sólo queremos mostrar aquellos pedidos que superen la cantidad de 2000 €.
-select cliente.id, cliente.nombre, cliente.apellido1, cliente.apellido2, pedido.fecha, max(pedido.total) as 'Máximo pagado' from pedido join cliente on cliente.id=pedido.id_cliente group by fecha;
+select cliente.id, cliente.nombre, cliente.apellido1, cliente.apellido2, pedido.fecha, max(pedido.total) as 'Máximo pagado' from pedido join cliente on cliente.id=pedido.id_cliente where pedido.total>2000 group by fecha;
 /**
 | id | nombre | apellido1 | apellido2 |   fecha    | Máximo pagado |
 |----|--------|-----------|-----------|------------|---------------|
@@ -456,15 +456,26 @@ select * from cliente, pedido where cliente.id=pedido.id_cliente and pedido.fech
 -- Subconsultas con IN y NOT IN
 
 -- Devuelve un listado de los clientes que no han realizado ningún pedido. (Utilizando IN o NOT IN).
-select * from cliente, pedido where pedido.id_cliente not in (select pedido.id_cliente from pedido, cliente);
+select * from cliente where id not in (select id_cliente from pedido);
 /**
-
+| id |  nombre   | apellido1 | apellido2 | ciudad  | categoria |
+|----|-----------|-----------|-----------|---------|-----------|
+| 9  | Guillermo | López     | Gómez     | Granada | 225       |
+| 10 | Daniel    | Santana   | Loyola    | Sevilla | 125       |
 **/
 
 -- Devuelve un listado de los comerciales que no han realizado ningún pedido. (Utilizando IN o NOT IN).
+select * from comercial where id not in (select id_comercial from pedido);
+/**
+| id | nombre  | apellido1 | apellido2 | categoria |
+|----|---------|-----------|-----------|-----------|
+| 4  | Marta   | Herrera   | Gil       | 0.14      |
+| 8  | Alfredo | Ruiz      | Flores    | 0.05      |
+**/
 
 -- Subconsultas con EXISTS y NOT EXISTS
 
 -- Devuelve un listado de los clientes que no han realizado ningún pedido. (Utilizando EXISTS o NOT EXISTS).
+-- select * from cliente where id not EXISTS (select id_cliente from pedido);
 
 -- Devuelve un listado de los comerciales que no han realizado ningún pedido. (Utilizando EXISTS o NOT EXISTS).
