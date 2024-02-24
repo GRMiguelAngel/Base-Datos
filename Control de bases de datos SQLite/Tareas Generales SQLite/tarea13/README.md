@@ -164,21 +164,42 @@ select asignatura.nombre, curso_escolar.anyo_inicio, curso_escolar.anyo_fin from
 
 5. Devuelve un listado con el nombre de todos los departamentos que tienen profesores que imparten alguna asignatura en el Grado en Ingeniería Informática (Plan 2015).
 ```sql
-
+select distinct departamento.nombre from departamento join profesor on profesor.id_departamento=departamento.id join asignatura on asignatura.id_profesor=profesor.id_profesor join grado on grado.id=asignatura.id_grado where grado.nombre='Grado en Ingeniería Informática (Plan 2015)';
 ```
+|   nombre    |
+|-------------|
+| Informática |
 
 6. Devuelve un listado con todos los alumnos que se han matriculado en alguna asignatura durante el curso escolar 2018/2019.
 ```sql
-
+select distinct persona.* from persona join alumno_se_matricula_asignatura on alumno_se_matricula_asignatura.id_alumno=persona.id join curso_escolar on curso_escolar.id=alumno_se_matricula_asignatura.id_curso_escolar where curso_escolar.anyo_inicio=2018;
 ```
-
+| id |    nif    | nombre | apellido1 | apellido2 | ciudad  |     direccion      | telefono  | fecha_nacimiento | sexo |  tipo  |
+|----|-----------|--------|-----------|-----------|---------|--------------------|-----------|------------------|------|--------|
+| 24 | 85135690V | Sonia  | Gea       | Ruiz      | Almería | C/ Mercurio        | 678812017 | 1995/04/13       | M    | alumno |
+| 23 | 64753215G | Irene  | Hernández | Martínez  | Almería | C/ Zapillo         | 628452384 | 1996/03/12       | M    | alumno |
+| 19 | 11578526G | Inma   | Lakin     | Yundt     | Almería | C/ Picos de Europa | 678652431 | 1998/09/01       | M    | alumno |
 
 ## <span style="color:white">Consultas multitabla (Where)<span>
 
 1. Devuelve un listado con los nombres de todos los profesores y los departamentos que tienen vinculados. El listado también debe mostrar aquellos profesores que no tienen ningún departamento asociado. El listado debe devolver cuatro columnas, nombre del departamento, primer apellido, segundo apellido y nombre del profesor. El resultado estará ordenado alfabéticamente de menor a mayor por el nombre del departamento, apellidos y el nombre.
 ```sql
-
+select coalesce(departamento.nombre, '') as Departamento, persona.apellido1, persona.apellido2, persona.nombre from departamento, persona, profesor where persona.id=profesor.id_profesor and profesor.id_departamento=departamento.id group by persona.id;
 ```
+|    Departamento    | apellido1  | apellido2  |  nombre   |
+|--------------------|------------|------------|-----------|
+| Informática        | Ramirez    | Gea        | Zoe       |
+| Matemáticas        | Schmidt    | Fisher     | David     |
+| Economía y Empresa | Lemke      | Rutherford | Cristina  |
+| Educación          | Spencer    | Lakin      | Esther    |
+| Educación          | Streich    | Hirthe     | Carmen    |
+| Química y Física   | Stiedemann | Morissette | Alfredo   |
+| Informática        | Hamill     | Kozey      | Manolo    |
+| Matemáticas        | Kohler     | Schoen     | Alejandro |
+| Economía y Empresa | Fahey      | Considine  | Antonio   |
+| Educación          | Ruecker    | Upton      | Guillermo |
+| Agronomía          | Monahan    | Murray     | Micaela   |
+| Química y Física   | Schowalter | Muller     | Francesca |
 
 2. Devuelve un listado con los profesores que no están asociados a un departamento.
 ```sql
@@ -210,8 +231,11 @@ select asignatura.nombre, curso_escolar.anyo_inicio, curso_escolar.anyo_fin from
 
 1. Devuelve el número total de alumnas que hay.
 ```sql
-
+select count(id) as 'Número de alumnas' from persona where sexo='M';
 ```
+| Número de alumnas |
+|-------------------|
+| 7                 |
 
 2. Calcula cuántos alumnos nacieron en 1999.
 ```sql
