@@ -361,7 +361,7 @@ select * from cliente where ciudad='Madrid' and codigo_empleado_rep_ventas in (1
 
 - Obtén un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.
 ```sql
-select cliente.nombre_cliente, empleado.nombre, empleado.apellido1, empleado.apellido2 from empleado join cliente on cliente.codigo_empleado_rep_ventas=empleado.codigo_empleado;
+select cliente.nombre_cliente, empleado.nombre, empleado.apellido1, empleado.apellido2 from empleado, cliente where cliente.codigo_empleado_rep_ventas=empleado.codigo_empleado;
 ```
 |         nombre_cliente         |     nombre      | apellido1  | apellido2 |
 |--------------------------------|-----------------|------------|-----------|
@@ -404,13 +404,33 @@ select cliente.nombre_cliente, empleado.nombre, empleado.apellido1, empleado.ape
 
 - Muestra el nombre de los clientes que hayan realizado pagos junto con el nombre de sus representantes de ventas.
 ```sql
-
+select distinct cliente.nombre_cliente, empleado.nombre from cliente, empleado, pago where cliente.codigo_cliente=pago.codigo_cliente and empleado.codigo_empleado=cliente.codigo_empleado_rep_ventas;
 ```
-
+|         nombre_cliente         |     nombre      |
+|--------------------------------|-----------------|
+| GoldFish Garden                | Walter Santiago |
+| Gardening Associates           | Walter Santiago |
+| Gerudo Valley                  | Lorena          |
+| Tendo Garden                   | Lorena          |
+| Beragua                        | Emmanuel        |
+| Naturagua                      | Emmanuel        |
+| Camunas Jardines S.L.          | Mariano         |
+| Dardena S.A.                   | Mariano         |
+| Jardin de Flores               | Julian          |
+| Flores Marivi                  | Felipe          |
+| Golf S.A.                      | José Manuel     |
+| Sotogrande                     | José Manuel     |
+| Jardines y Mansiones Cactus SL | Lucio           |
+| Jardinerías Matías SL          | Lucio           |
+| Agrojardin                     | Julian          |
+| Jardineria Sara                | Felipe          |
+| Tutifruti S.A                  | Mariko          |
+| El Jardin Viviente S.L         | Mariko          |
 - Muestra el nombre de los clientes que no hayan realizado pagos junto con el nombre de sus representantes de ventas.
 ```sql
-
 ```
+## select cliente.nombre_cliente, empleado.nombre from cliente join pago on not cliente.codigo_cliente=pago.codigo_cliente join empleado on empleado.codigo_empleado=cliente.codigo_empleado_rep_ventas;
+
 
 - Devuelve el nombre de los clientes que han hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
 ```sql
@@ -424,13 +444,54 @@ select cliente.nombre_cliente, empleado.nombre, empleado.apellido1, empleado.ape
 
 - Lista la dirección de las oficinas que tengan clientes en Fuenlabrada.
 ```sql
-
+select oficina.linea_direccion1 from oficina, empleado, cliente where oficina.codigo_oficina=empleado.codigo_oficina and cliente.codigo_empleado_rep_ventas=empleado.codigo_empleado and cliente.region='Fuenlabrada';
 ```
+| linea_direccion1  |
+|-------------------|
+| 100 Market Street |
 
 - Devuelve el nombre de los clientes y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
 ```sql
-
+select cliente.nombre_cliente, empleado.nombre as 'Nombre representante', oficina.ciudad from cliente, empleado, oficina where empleado.codigo_oficina=oficina.codigo_oficina and cliente.codigo_empleado_rep_ventas=empleado.codigo_empleado;
 ```
+|         nombre_cliente         | Nombre representante |        ciudad        |
+|--------------------------------|----------------------|----------------------|
+| GoldFish Garden                | Walter Santiago      | San Francisco        |
+| Gardening Associates           | Walter Santiago      | San Francisco        |
+| Gerudo Valley                  | Lorena               | Boston               |
+| Tendo Garden                   | Lorena               | Boston               |
+| Lasas S.A.                     | Mariano              | Madrid               |
+| Beragua                        | Emmanuel             | Barcelona            |
+| Club Golf Puerta del hierro    | Emmanuel             | Barcelona            |
+| Naturagua                      | Emmanuel             | Barcelona            |
+| DaraDistribuciones             | Emmanuel             | Barcelona            |
+| Madrileña de riegos            | Emmanuel             | Barcelona            |
+| Lasas S.A.                     | Mariano              | Madrid               |
+| Camunas Jardines S.L.          | Mariano              | Madrid               |
+| Dardena S.A.                   | Mariano              | Madrid               |
+| Jardin de Flores               | Julian               | Sydney               |
+| Flores Marivi                  | Felipe               | Talavera de la Reina |
+| Flowers, S.A                   | Felipe               | Talavera de la Reina |
+| Naturajardin                   | Julian               | Sydney               |
+| Golf S.A.                      | José Manuel          | Barcelona            |
+| Americh Golf Management SL     | José Manuel          | Barcelona            |
+| Aloha                          | José Manuel          | Barcelona            |
+| El Prat                        | José Manuel          | Barcelona            |
+| Sotogrande                     | José Manuel          | Barcelona            |
+| Vivero Humanes                 | Julian               | Sydney               |
+| Fuenla City                    | Felipe               | Talavera de la Reina |
+| Jardines y Mansiones Cactus SL | Lucio                | Madrid               |
+| Jardinerías Matías SL          | Lucio                | Madrid               |
+| Agrojardin                     | Julian               | Sydney               |
+| Top Campo                      | Felipe               | Talavera de la Reina |
+| Jardineria Sara                | Felipe               | Talavera de la Reina |
+| Campohermoso                   | Julian               | Sydney               |
+| france telecom                 | Lionel               | Paris                |
+| Musée du Louvre                | Lionel               | Paris                |
+| Tutifruti S.A                  | Mariko               | Sydney               |
+| Flores S.L.                    | Michael              | San Francisco        |
+| The Magic Garden               | Michael              | San Francisco        |
+| El Jardin Viviente S.L         | Mariko               | Sydney               |
 
 - Devuelve un listado con el nombre de los empleados junto con el nombre de sus jefes.
 ```sql

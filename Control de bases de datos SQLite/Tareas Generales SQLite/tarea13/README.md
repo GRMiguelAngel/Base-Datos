@@ -239,13 +239,24 @@ select count(id) as 'Número de alumnas' from persona where sexo='M';
 
 2. Calcula cuántos alumnos nacieron en 1999.
 ```sql
-
+select count(id) as 'Número de alumnos' from persona where fecha_nacimiento regexp '^1999/' and tipo='alumno';
 ```
+| Número de alumnos |
+|-------------------|
+| 2                 |
 
 3. Calcula cuántos profesores hay en cada departamento. El resultado sólo debe mostrar dos columnas, una con el nombre del departamento y otra con el número de profesores que hay en ese departamento. El resultado sólo debe incluir los departamentos que tienen profesores asociados y deberá estar ordenado de mayor a menor por el número de profesores.
 ```sql
-
+select count(persona.id) as 'Número de profesores', departamento.nombre as Departamento from persona join profesor on profesor.id_profesor=persona.id join departamento on departamento.id=profesor.id_departamento group by departamento.id;
 ```
+| Número de profesores |    Departamento    |
+|----------------------|--------------------|
+| 2                    | Informática        |
+| 2                    | Matemáticas        |
+| 2                    | Economía y Empresa |
+| 3                    | Educación          |
+| 1                    | Agronomía          |
+| 2                    | Química y Física   |
 
 4. Devuelve un listado con todos los departamentos y el número de profesores que hay en cada uno de ellos. Tenga en cuenta que pueden existir departamentos que no tienen profesores asociados. Estos departamentos también tienen que aparecer en el listado.
 ```sql
