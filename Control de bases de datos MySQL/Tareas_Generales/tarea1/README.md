@@ -91,19 +91,19 @@ select pedidos.* from pedidos join usuarios on usuarios.id=pedidos.usuarios_id w
 ```
 - Mostrar los usuarios ordenados por edad de forma ascendente.
 ```sql
-select * from pedidos;
+select * from usuarios order by edad asc;
 ```
 - Mostrar los productos con un precio entre 20 y 50.
 ```sql
-select * from pedidos;
+select * from productos where precio between 20 and 50;
 ```
 - Mostrar los usuarios que tienen un correo de dominio 'example.com'.
 ```sql
-select * from pedidos;
+select * from usuarios where correo='example.com';
 ```
 - Mostrar los pedidos con una cantidad mayor a 2
 ```sql
-select * from pedidos;
+select * from pedidos where cantidad>2;
 ```
 
 </div>
