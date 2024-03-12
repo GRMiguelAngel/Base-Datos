@@ -4,7 +4,7 @@
 
 ```sql
 CREATE TABLE IF NOT EXISTS usuarios (
-    id INT PRIMARY KEY AUTOINCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50),
     edad INT,
     correo VARCHAR(60)
@@ -16,8 +16,8 @@ INSERT INTO usuarios (nombre, edad, correo) VALUES
 ('Pedro', 28, 'pedro@example.com');
 
 CREATE TABLE IF NOT EXISTS productos (
-    id INT PRIMARY KEY AUTOINCREMENT,
-    nombre VARCHAR,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(50),
     precio DECIMAL(10, 2),
     cantidad INT
 );
@@ -28,7 +28,7 @@ INSERT INTO productos (nombre, precio, cantidad) VALUES
 ('Zapatos', 59.99, 50);
 
 CREATE TABLE IF NOT EXISTS pedidos (
-    id INT PRIMARY KEY AUTOINCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT,
     producto_id INT,
     cantidad INT,
@@ -67,7 +67,7 @@ select * from productos where precio>50;
 ```
 - Mostrar los pedidos realizados el día de hoy.
 ```sql
--- select * from pedidos where;
+select * from pedidos where fecha_pedido = now();
 ```
 - Mostrar el total de productos en stock.
 ```sql
@@ -87,7 +87,7 @@ select * from productos order by precio desc;
 ```
 - Mostrar los pedidos realizados por el usuario con ID 2.
 ```sql
-select pedidos.* from pedidos join usuarios on usuarios.id=pedidos.usuarios_id where usuarios.id=2;
+select pedidos.* from pedidos join usuarios on usuarios.id=pedidos.usuario_id where usuarios.id=2;
 ```
 - Mostrar los usuarios ordenados por edad de forma ascendente.
 ```sql
@@ -99,7 +99,7 @@ select * from productos where precio between 20 and 50;
 ```
 - Mostrar los usuarios que tienen un correo de dominio 'example.com'.
 ```sql
-select * from usuarios where correo='example.com';
+select * from usuarios where correo regexp '@example.com$';
 ```
 - Mostrar los pedidos con una cantidad mayor a 2
 ```sql
