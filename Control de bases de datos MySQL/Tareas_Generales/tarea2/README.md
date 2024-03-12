@@ -4,7 +4,7 @@
 
 ```sql
 CREATE TABLE IF NOT EXISTS clientes (
-    id_cliente INT PRIMARY KEY AUTOINCREMENT,
+    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50),
     direccion VARCHAR(100)
 );
@@ -32,7 +32,7 @@ INSERT INTO clientes (nombre, direccion) VALUES
     ('Cliente 20', 'Dirección 20');
 
 CREATE TABLE IF NOT EXISTS productos (
-    id_producto INT PRIMARY KEY AUTOINCREMENT,
+    id_producto INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50),
     precio FLOAT
 );
@@ -60,7 +60,7 @@ INSERT INTO productos (nombre, precio) VALUES
     ('Producto 20', 200.50);
 
 CREATE TABLE IF NOT EXISTS ordenes (
-    id_orden INT PRIMARY KEY AUTOINCREMENT,
+    id_orden INT PRIMARY KEY AUTO_INCREMENT,
     id_cliente INT,
     id_producto INT,
     cantidad INT,
@@ -120,29 +120,69 @@ Realiza la migración a __MySql__ y realiza las siguientes consultas:
    <br>
    
     ```sql
-    select
+    select * from clientes order by nombre limit 5;
+
+    +------------+------------+---------------+
+    | id_cliente | nombre     | direccion     |
+    +------------+------------+---------------+
+    |          1 | Cliente 1  | Dirección 1   |
+    |         10 | Cliente 10 | Dirección 10  |
+    |         11 | Cliente 11 | Dirección 11  |
+    |         12 | Cliente 12 | Dirección 12  |
+    |         13 | Cliente 13 | Dirección 13  |
+    +------------+------------+---------------+
     ```
+    
   - 5. Mostrar los productos con un precio mayor a 50.
      
    <br>
    
     ```sql
-    select
+    select * from productos where precio>50;
+
+    +-------------+-------------+--------+
+    | id_producto | nombre      | precio |
+    +-------------+-------------+--------+
+    |           5 | Producto 5  |  50.99 |
+    |           6 | Producto 6  |   60.5 |
+    |           7 | Producto 7  |  70.99 |
+    |           8 | Producto 8  |   80.5 |
+    |           9 | Producto 9  |  90.99 |
+    |          10 | Producto 10 |  100.5 |
+    |          11 | Producto 11 | 110.99 |
+    |          12 | Producto 12 |  120.5 |
+    |          13 | Producto 13 | 130.99 |
+    |          14 | Producto 14 |  140.5 |
+    |          15 | Producto 15 | 150.99 |
+    |          16 | Producto 16 |  160.5 |
+    |          17 | Producto 17 | 170.99 |
+    |          18 | Producto 18 |  180.5 |
+    |          19 | Producto 19 | 190.99 |
+    |          20 | Producto 20 |  200.5 |
+    +-------------+-------------+--------+
     ```
+
   - 6. Mostrar todas las órdenes realizadas por el cliente con ID 1.
      
    <br>
    
     ```sql
-    select
+    select ordenes.* from ordenes inner join clientes on ordenes.id_cliente=clientes.id_cliente where clientes.id_cliente=1;
+
+    +----------+------------+-------------+----------+
+    | id_orden | id_cliente | id_producto | cantidad |
+    +----------+------------+-------------+----------+
+    |        1 |          1 |           1 |        2 |
+    +----------+------------+-------------+----------+
     ```
   - 7. Mostrar los clientes cuyos nombres comienzan con la letra "M".
      
    <br>
    
     ```sql
-    select
+    select * from clientes where nombre regexp "^M";
     ```
+    
   - 8. Mostrar las órdenes que contienen más de 2 productos.
      
    <br>
