@@ -86,15 +86,10 @@ select * from ordenes where id_cliente=1;
 ```
 - Mostrar los clientes cuyos nombres comienzan con la letra "A".
 ```sql
-select * from clientes where nombre_cliente regexp "[Aa]";
-+------------+----------------+----------------+
-| id_cliente | nombre_cliente | ciudad_cliente |
-+------------+----------------+----------------+
-|          1 | Juan           | Ciudad A       |
-|          2 | María          | Ciudad B       |
-+------------+----------------+----------------+
-
+select * from clientes where nombre_cliente regexp "^A";
 ```
+> No devuelve nada
+
 - Mostrar las órdenes que contienen más de 2 productos.
 ```sql
 select * from detalles_ordenes where cantidad>2;
@@ -141,10 +136,18 @@ select * from ordenes inner join detalles_ordenes on detalles_ordenes.id_orden=o
 ```
 - Mostrar el nombre de los clientes que han realizado órdenes de productos que cuestan más de 50.
 ```sql
-
+select clientes.nombre_cliente from clientes inner join ordenes on ordenes.id_cliente=clientes.id_cliente inner join detalles_ordenes on detalles_ordenes.id_orden=ordenes.id_orden inner join productos on productos.id_producto=detalles_ordenes.id_producto where productos.precio_producto>50;
++----------------+
+| nombre_cliente |
++----------------+
+| María          |
+| Pedro          |
++----------------+
 ```
 - Obtener el nombre de los productos que no se han ordenado aún.
 ```sql
+select productos.* from productos left join detalles_ordenes on productos.id_producto=detalles_ordenes.id_producto where detalles_ordenes.id_producto is null;
+Empty set (0,00 sec)
 
 ```
 - Mostrar el nombre del cliente, el producto y la cantidad para todas las órdenes.
