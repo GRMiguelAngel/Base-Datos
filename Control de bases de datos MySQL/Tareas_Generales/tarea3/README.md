@@ -83,6 +83,7 @@ select * from ordenes where id_cliente=1;
 |        1 |          1 | 2024-03-01  |
 +----------+------------+-------------+
 ```
+
 - Mostrar los clientes cuyos nombres comienzan con la letra "A".
 ```sql
 select * from clientes where nombre_cliente regexp "^A";
