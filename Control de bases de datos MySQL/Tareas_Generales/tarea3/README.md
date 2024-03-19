@@ -152,59 +152,161 @@ Empty set (0,00 sec)
 ```
 - Mostrar el nombre del cliente, el producto y la cantidad para todas las órdenes.
 ```sql
-
+select clientes.nombre_cliente , productos.nombre_producto , detalles_ordenes.cantidad from clientes inner join ordenes on ordenes.id_cliente = clientes.id_cliente inner join detalles_ordenes on detalles_ordenes.id_orden = ordenes.id_orden inner join productos on productos.id_producto = detalles_ordenes.id_producto ;
++----------------+-----------------+----------+
+| nombre_cliente | nombre_producto | cantidad |
++----------------+-----------------+----------+
+| Juan           | Producto A      |        2 |
+| María          | Producto B      |        1 |
+| Pedro          | Producto C      |        3 |
++----------------+-----------------+----------+
 ```
 - Obtener el nombre de los productos junto con los nombres de los clientes que han realizado órdenes de esos productos.
 ```sql
-
+select productos.nombre_producto, clientes.nombre_cliente from clientes inner join ordenes on ordenes.id_cliente =clientes.id_cliente inner join detalles_ordenes on detalles_ordenes.id_orden = ordenes.id_orden inner join productos
+on productos.id_producto = detalles_ordenes.id_producto ;
++-----------------+----------------+
+| nombre_producto | nombre_cliente |
++-----------------+----------------+
+| Producto A      | Juan           |
+| Producto B      | María          |
+| Producto C      | Pedro          |
++-----------------+----------------+
 ```
 - Mostrar todas las órdenes con sus clientes y productos, incluso si no hay órdenes.
 ```sql
-
+select clientes.id_cliente , clientes.nombre_cliente , clientes.ciudad_cliente , ordenes.id_orden , ordenes.fecha_orden , detalles_ordenes.id_detalle , productos.id_producto, detalles_ordenes.cantidad , productos.nombre_producto , productos.precio_producto from clientes left join ordenes on ordenes.id_cliente =clientes.id_cliente inner join detalles_ordenes on detalles_ordenes.id_orden = ordenes.id_orden inner join productos on productos.id_producto = detalles_ordenes.id_producto ;
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
+| id_cliente | nombre_cliente | ciudad_cliente | id_orden | fecha_orden | id_detalle | id_producto | cantidad | nombre_producto | precio_producto |
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
+|          1 | Juan           | Ciudad A       |        1 | 2024-03-01  |          1 |           1 |        2 | Producto A      |           50.00 |
+|          2 | María          | Ciudad B       |        2 | 2024-03-02  |          2 |           2 |        1 | Producto B      |           75.00 |
+|          3 | Pedro          | Ciudad C       |        3 | 2024-03-03  |          3 |           3 |        3 | Producto C      |          100.00 |
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
 ```
 - Obtener el nombre de los clientes junto con el número total de órdenes que han realizado.
 ```sql
-
+select clientes.nombre_cliente , count(ordenes.id_cliente) as "Número de ordenes" from clientes inner join ordenes on ordenes.id_cliente = clientes.id_cliente group by clientes.id_cliente ;
++----------------+--------------------+
+| nombre_cliente | Número de ordenes  |
++----------------+--------------------+
+| Juan           |                  1 |
+| María          |                  1 |
+| Pedro          |                  1 |
++----------------+--------------------+
 ```
 - Mostrar todas las órdenes junto con el nombre del cliente y el nombre del producto.
 ```sql
+select clientes.id_cliente , clientes.nombre_cliente , clientes.ciudad_cliente , ordenes.id_orden , ordenes.fecha_orden , detalles_ordenes.id_detalle , productos.id_producto, detalles_ordenes.cantidad , productos.nombre_producto , productos.precio_producto from clientes inner join ordenes on ordenes.id_cliente =clientes.id_cliente inner join detalles_ordenes on detalles_ordenes.id_orden = ordenes.id_orden inner join productos on productos.id_producto = detalles_ordenes.id_producto ;
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
+| id_cliente | nombre_cliente | ciudad_cliente | id_orden | fecha_orden | id_detalle | id_producto | cantidad | nombre_producto | precio_producto |
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
+|          1 | Juan           | Ciudad A       |        1 | 2024-03-01  |          1 |           1 |        2 | Producto A      |           50.00 |
+|          2 | María          | Ciudad B       |        2 | 2024-03-02  |          2 |           2 |        1 | Producto B      |           75.00 |
+|          3 | Pedro          | Ciudad C       |        3 | 2024-03-03  |          3 |           3 |        3 | Producto C      |          100.00 |
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
 
 ```
 - Mostrar todas las órdenes con sus productos y clientes, incluso si no hay información de cliente.
 ```sql
-
+select clientes.id_cliente , clientes.nombre_cliente , clientes.ciudad_cliente , ordenes.id_orden , ordenes.fecha_orden , detalles_ordenes.id_detalle , productos.id_producto, detalles_ordenes.cantidad , productos.nombre_producto , productos.precio_producto from clientes right join ordenes on ordenes.id_cliente =clientes.id_cliente inner join detalles_ordenes on detalles_ordenes.id_orden = ordenes.id_orden inner join productos on productos.id_producto = detalles_ordenes.id_producto ;
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
+| id_cliente | nombre_cliente | ciudad_cliente | id_orden | fecha_orden | id_detalle | id_producto | cantidad | nombre_producto | precio_producto |
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
+|          1 | Juan           | Ciudad A       |        1 | 2024-03-01  |          1 |           1 |        2 | Producto A      |           50.00 |
+|          2 | María          | Ciudad B       |        2 | 2024-03-02  |          2 |           2 |        1 | Producto B      |           75.00 |
+|          3 | Pedro          | Ciudad C       |        3 | 2024-03-03  |          3 |           3 |        3 | Producto C      |          100.00 |
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
 ```
 - Obtener el nombre de los productos junto con los nombres de los clientes que han realizado órdenes de esos productos, incluyendo los productos que no han sido ordenados.
 ```sql
-
+select productos.nombre_producto , clientes.nombre_cliente from productos left join detalles_ordenes on detalles_ordenes.id_producto = productos.id_producto inner join ordenes on ordenes.id_orden = detalles_ordenes.id_orden inner join clientes on clientes.id_cliente = ordenes.id_cliente ;
++-----------------+----------------+
+| nombre_producto | nombre_cliente |
++-----------------+----------------+
+| Producto A      | Juan           |
+| Producto B      | María          |
+| Producto C      | Pedro          |
++-----------------+----------------+
 ```
 - Mostrar todas las órdenes junto con el nombre del cliente y el nombre del producto, incluyendo las órdenes sin productos.
 ```sql
+select ordenes.*, clientes.nombre_cliente , productos.nombre_producto from detalles_ordenes left join productos on productos.id_producto = detalles_ordenes.id_producto inner join ordenes on ordenes.id_orden = detalles_ordenes.id_orden inner join clientes on clientes.id_cliente = ordenes.id_cliente ;
++----------+------------+-------------+----------------+-----------------+
+| id_orden | id_cliente | fecha_orden | nombre_cliente | nombre_producto |
++----------+------------+-------------+----------------+-----------------+
+|        1 |          1 | 2024-03-01  | Juan           | Producto A      |
+|        2 |          2 | 2024-03-02  | María          | Producto B      |
+|        3 |          3 | 2024-03-03  | Pedro          | Producto C      |
++----------+------------+-------------+----------------+-----------------+
 
 ```
 - Obtener el nombre de los clientes junto con el número total de órdenes que han realizado, incluyendo los clientes que no han realizado órdenes.
 ```sql
-
+select clientes.nombre_cliente , count(ordenes.id_cliente ) as "Número de órdenes" from clientes left join ordenes on clientes.id_cliente = ordenes.id_cliente group by clientes.id_cliente ;
++----------------+---------------------+
+| nombre_cliente | Número de órdenes   |
++----------------+---------------------+
+| Juan           |                   1 |
+| María          |                   1 |
+| Pedro          |                   1 |
++----------------+---------------------+
 ```
 - Mostrar todas las órdenes con sus clientes y productos, incluyendo las órdenes y productos que no tienen información.
 ```sql
-
+select clientes.id_cliente , clientes.nombre_cliente , clientes.ciudad_cliente , ordenes.id_orden , ordenes.fecha_orden , detalles_ordenes.id_detalle , productos.id_producto, detalles_ordenes.cantidad , productos.nombre_producto , productos.precio_producto from ordenes left join clientes on clientes.id_cliente = ordenes.id_cliente inner join detalles_ordenes on detalles_ordenes.id_orden = ordenes.id_orden right join productos on productos.id_producto =detalles_ordenes.id_producto ;
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
+| id_cliente | nombre_cliente | ciudad_cliente | id_orden | fecha_orden | id_detalle | id_producto | cantidad | nombre_producto | precio_producto |
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
+|          1 | Juan           | Ciudad A       |        1 | 2024-03-01  |          1 |           1 |        2 | Producto A      |           50.00 |
+|          2 | María          | Ciudad B       |        2 | 2024-03-02  |          2 |           2 |        1 | Producto B      |           75.00 |
+|          3 | Pedro          | Ciudad C       |        3 | 2024-03-03  |          3 |           3 |        3 | Producto C      |          100.00 |
++------------+----------------+----------------+----------+-------------+------------+-------------+----------+-----------------+-----------------+
 ```
 - Realizar un inner join entre clientes y órdenes.
 ```sql
-
+select clientes.id_cliente , clientes.nombre_cliente , clientes.ciudad_cliente , ordenes.id_orden , ordenes.fecha_orden from clientes inner join ordenes on ordenes.id_cliente = clientes.id_cliente ;
++------------+----------------+----------------+----------+-------------+
+| id_cliente | nombre_cliente | ciudad_cliente | id_orden | fecha_orden |
++------------+----------------+----------------+----------+-------------+
+|          1 | Juan           | Ciudad A       |        1 | 2024-03-01  |
+|          2 | María          | Ciudad B       |        2 | 2024-03-02  |
+|          3 | Pedro          | Ciudad C       |        3 | 2024-03-03  |
++------------+----------------+----------------+----------+-------------+
 ```
 - Realizar un left join entre órdenes y detalles de órdenes.
 ```sql
+select ordenes.id_orden , ordenes.fecha_orden , detalles_ordenes.id_detalle , detalles_ordenes.id_producto, detalles_ordenes.cantidad from detalles_ordenes left join ordenes on ordenes.id_orden = detalles_ordenes.id_orden ;
++----------+-------------+------------+-------------+----------+
+| id_orden | fecha_orden | id_detalle | id_producto | cantidad |
++----------+-------------+------------+-------------+----------+
+|        1 | 2024-03-01  |          1 |           1 |        2 |
+|        2 | 2024-03-02  |          2 |           2 |        1 |
+|        3 | 2024-03-03  |          3 |           3 |        3 |
++----------+-------------+------------+-------------+----------+
 
 ```
 - Realizar un right join entre productos y detalles de órdenes.
 ```sql
-
+select detalles_ordenes.id_detalle , productos.id_producto, detalles_ordenes.cantidad , productos.nombre_producto , productos.precio_producto from detalles_ordenes right join productos on productos.id_producto = detalles_ordenes.id_producto ;
++------------+-------------+----------+-----------------+-----------------+
+| id_detalle | id_producto | cantidad | nombre_producto | precio_producto |
++------------+-------------+----------+-----------------+-----------------+
+|          1 |           1 |        2 | Producto A      |           50.00 |
+|          2 |           2 |        1 | Producto B      |           75.00 |
+|          3 |           3 |        3 | Producto C      |          100.00 |
++------------+-------------+----------+-----------------+-----------------+
 ```
 - Realizar un full join entre clientes y órdenes.
 ```sql
-
+select clientes.id_cliente , clientes.nombre_cliente , clientes.ciudad_cliente , ordenes.id_orden , ordenes.fecha_orden from clientes left join ordenes on ordenes.id_cliente = clientes.id_cliente union all select clientes.id_cliente , clientes.nombre_cliente , clientes.ciudad_cliente , ordenes.id_orden , ordenes.fecha_orden from clientes right join ordenes on ordenes.id_cliente = clientes.id_cliente where ordenes.id_cliente is null;
++------------+----------------+----------------+----------+-------------+
+| id_cliente | nombre_cliente | ciudad_cliente | id_orden | fecha_orden |
++------------+----------------+----------------+----------+-------------+
+|          1 | Juan           | Ciudad A       |        1 | 2024-03-01  |
+|          2 | María          | Ciudad B       |        2 | 2024-03-02  |
+|          3 | Pedro          | Ciudad C       |        3 | 2024-03-03  |
++------------+----------------+----------------+----------+-------------+
 ```
 - Realizar un full join entre órdenes y detalles de órdenes.
 ```sql
